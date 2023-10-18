@@ -7,23 +7,50 @@ const app=express()
 app.use(express.json())
 app.use(cors())
 
-mongoose.connect("mongodb://localhost:27017/employee")
+mongoose.connect("mongodb://127.0.0.1:27017/employee", {useNewUrlParser:true, useUnifiedTopology:true})
+.then(()=>{ 
+    console.log("Connection to Database Successfull")})
+.catch((err)=>{ 
+    console.log(`Error due to ${err}`)})
 
-app.post('/', (req, res)=>{
-    const {email, password}=req.body;
-    EmployeeModel.findOne({email: email})
-    .then(user => {
-        if(user){
-            if(user.password === password){
-                res.json("Success")
-            } else{
-                res.json("Password is incorrect")
+// app.post('/login', (req, res)=>{
+//     const {email, password}=req.body;
+//     EmployeeModel.findOne({email: email})
+//     .then(user => {
+//         if(user){
+//             if(user.password === password){
+//                 res.json("Success")
+//             } else{
+//                 res.json("Password is incorrect")
+//             }
+//         } else{
+//             res.json("User not found, Sign up first!!")
+//         }
+//     })
+// })
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    console.log(req.body)
+
+    try {
+        const user = await EmployeeModel.findOne({ email: email });
+        console.log(user)
+
+        if (user) {
+            if (user.password === password) {
+                res.json("Success");
+            } else {
+                res.json("Password is incorrect");
             }
-        } else{
-            res.json("User not found, Sign up first!!")
+        } else {
+            res.json("User not found, Sign up first!!");
         }
-    })
-})
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while processing your request" });
+    }
+});
+
 
 app.post('/register', (req, res)=>{
     EmployeeModel.create(req.body)

@@ -13,7 +13,7 @@ const SignUp = () => {
         e.preventDefault()
         axios.post('http://localhost:3001/register', {name, email, password})
         .then(result => {console.log(result)
-        navigate('/')
+        navigate('/login')
         })
         .then(err => console.log(err))
     }
@@ -40,7 +40,7 @@ const SignUp = () => {
                         <button className='btn btn-primary'>Sign Up</button>
                     </div>
                     <p className='text-center mt-2 fs-6'>
-                        Already Registered? <Link to='/' className='ms-1'>Sign in</Link>
+                        Already Registered? <Link to='/login' className='ms-1'>Sign in</Link>
                         </p>
                 </form>
                 </div>
