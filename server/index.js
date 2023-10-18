@@ -7,7 +7,10 @@ const app=express()
 app.use(express.json())
 app.use(cors())
 
-mongoose.connect("mongodb://127.0.0.1:27017/employee", {useNewUrlParser:true, useUnifiedTopology:true})
+// mongoose.connect("mongodb://127.0.0.1:27017/employee", {useNewUrlParser:true, useUnifiedTopology:true})
+
+mongoose.connect("mongodb+srv://faizan2017fk:786786Fk@cluster0.ohuylq7.mongodb.net/?retryWrites=true&w=majority", {useNewUrlParser:true, useUnifiedTopology:true})
+
 .then(()=>{ 
     console.log("Connection to Database Successfull")})
 .catch((err)=>{ 
